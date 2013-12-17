@@ -1,0 +1,35 @@
+
+* ReadMe File
+
+** For Non-Gaussianity Only
+
+This is a toy package which serves only for the
+calculation of the /non-Gaussianity/ of cosmology
+perturbation *in the epoch of inflation*, for
+which only the scalar perturbation is the one we
+care for.
+
+Thus, in this toy package, we consider only *real
+scalar field*, which makes all programmes quite
+simpler.
+
+For the details of scalar perturbation, see the
+[[http://arxiv.org/abs/astro-ph/0210603][J.Maldacena's treatise on non-Gaussianity]].
+
+While, a package with full completion should be
+worked out. It's hard though, while it's full of
+challenges, for me!
+
+*** For example
+
+In this toy package, because of its aim, the
+quantity under consideration are just the combination
+of the $\zeta$, in J.M.'s treatise, which is real.
+
+Thus, there's no dagger appeared out side the $\zeta$.
+The only place of the appearance of dagger is the
+creation operator of the real scalar field $\zeta$.
+
+And the particles here are all bosons!
+
+This makes the progamme simplified.

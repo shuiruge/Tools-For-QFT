@@ -1,0 +1,126 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[      3775,        117]
+NotebookOptionsPosition[      3364,         98]
+NotebookOutlinePosition[      3699,        113]
+CellTagsIndexPosition[      3656,        110]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Basic Ideas.", "Section",
+ CellChangeTimes->{{3.595076997489436*^9, 3.595077014648989*^9}}],
+
+Cell[TextData[{
+ "The basic idea comes from the treatise by ",
+ ButtonBox["R.Wald, 1975, cmp",
+  BaseStyle->"Hyperlink",
+  ButtonData->{
+    URL["http://projecteuclid.org/DPubS?service=UI&version=1.0&verb=Display&\
+handle=euclid.cmp/1103899393"], "Wald, 1975, cmp"},
+  ButtonNote->
+   "http://projecteuclid.org/DPubS?service=UI&version=1.0&verb=Display&handle=\
+euclid.cmp/1103899393"],
+ ". This\[CloseCurlyQuote]s well done for real scalar field, which is just \
+the field considered by R.Wald in that treatise."
+}], "Text",
+ CellChangeTimes->{{3.595077008327905*^9, 3.595077039578662*^9}, {
+  3.595077160031244*^9, 3.595077160032964*^9}, {3.595077256694984*^9, 
+  3.595077257207993*^9}}],
+
+Cell["", "Text",
+ CellChangeTimes->{{3.5950771932485*^9, 3.595077254939926*^9}}],
+
+Cell[TextData[{
+ Cell[BoxData[
+  FormBox[
+   RowBox[{
+    RowBox[{"c", " ", 
+     RowBox[{
+      SuperscriptBox["a", "+"], "(", 
+      SubscriptBox["\[Sigma]", "f"], ")"}], " ", 
+     RowBox[{"{", 
+      RowBox[{"1", ",", " ", "0", ",", " ", "0", ",", " ", 
+       RowBox[{"...", "..."}]}], "}"}]}], " ", "=", " ", 
+    RowBox[{
+     RowBox[{"c", " ", 
+      RowBox[{"{", 
+       RowBox[{"1", ",", " ", 
+        SubscriptBox["\[Sigma]", "f"], ",", " ", "0", ",", " ", 
+        RowBox[{"...", "..."}]}], "}"}]}], " ", "=", " ", 
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"c", " ", "1"}], ",", " ", 
+       RowBox[{"c", " ", 
+        SubscriptBox["\[Sigma]", "f"]}], ",", " ", "0", ",", " ", 
+       RowBox[{"...", "..."}]}], "}"}]}]}], TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ ", where the ",
+ Cell[BoxData[
+  FormBox["c", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " is any constant, or even function of the ",
+ Cell[BoxData[
+  FormBox["f", TraditionalForm]],
+  FormatType->"TraditionalForm"],
+ " (This can be realized by consider the discrete case.)!"
+}], "Text",
+ CellChangeTimes->{{3.595077270472755*^9, 3.595077485211816*^9}, {
+  3.595077522275678*^9, 3.595077593138502*^9}}],
+
+Cell[TextData[{
+ "The idea on the description of state in the Fock space \[ScriptCapitalF](\
+\[ScriptCapitalH]) is using lists, for which ",
+ StyleBox["Mathematica",
+  FontSlant->"Italic"],
+ " is quite powerful. The number of the particles should be denoted \
+additionally by a number in the sub-list wihin the whole list as a state in \
+Fock space, which can be used to define the function of inner product in \
+momentum space, which\[CloseCurlyQuote]ll be different for different numbers \
+of particles."
+}], "Text",
+ CellChangeTimes->{{3.595078510450494*^9, 3.595078627357302*^9}, {
+  3.595078691994968*^9, 3.59507877305443*^9}, {3.595078813908516*^9, 
+  3.595078874643158*^9}}]
+}, Open  ]]
+},
+WindowSize->{1024, 574},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"8.0 for Linux x86 (32-bit) (November 7, 2010)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 97, 1, 72, "Section"],
+Cell[679, 25, 689, 15, 49, "Text"],
+Cell[1371, 42, 80, 1, 30, "Text"],
+Cell[1454, 45, 1210, 35, 52, "Text"],
+Cell[2667, 82, 681, 13, 68, "Text"]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

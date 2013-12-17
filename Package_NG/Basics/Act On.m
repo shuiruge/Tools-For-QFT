@@ -1,19 +1,26 @@
 (* ::Package:: *)
 
+(* We must be care of the "dagger" operation!!! *)
+
+
 (* This package contain the function "actOn", and its sub-funcitons.
 It's used to act a complex combination of some physical quantities
 which're q-numbers on the state, such as vacuum state. *)
 
 
-actOn[Operator_, State_] := Module[{result, Integrand, Variable, TheFirst, TheResidual},
-	If[MemberQ[FundamentalQNumbers, Head@Operator ] == True,
+<<ToolsForQFT`Packages`Basics`FundamentalQNumber`;
+(* Load the "FundamentalQNumber.m" package, which contains the "fundamentalQNumberQ" which is needed here. *)
+
+
+actOn[Operator_, State_] := Module[{result, SubOperator, Integrand, Variable, TheFirst, TheResidual},
+	If[fundamentalQNumberQ[Operator] == True,
 		(* That is, the "Operator" is just the PURE creation or annihilation operators. *)
 		result = pureActOn[Operator, State]];
-	If[MemberQ[FundamentalQNumbers, Head@Operator ] == False && ToString[Head@Operator] != "Integrate" && ToString[Head@Operator] != "Plus" && ToString[Head@Operator] != "Times" && ToString[Head@Operator] != "NonCommutativeMultiply",
+	If[fundamentalQNumberQ[Operator] == False && ToString[Head@Operator] != "dagger" && ToString[Head@Operator] != "Integrate" && ToString[Head@Operator] != "Plus" && ToString[Head@Operator] != "Times" && ToString[Head@Operator] != "NonCommutativeMultiply",
 		(* That is, the "Operator" is completely a PURE c-number, or c-number function. *)
 		result = cNumberActOn[Operator, State]];
 	(* If the "Operator" is not a PURE one, then: *)
-	If[MemberQ[FundamentalQNumbers, Head@Operator ] == False,
+	If[fundamentalQNumberQ[Operator] == False,
 		(* $\{ \int dp a (p) \} . \Ket{\Phi}$ -> $\int dp \{ a (p) . \Ket{\Phi} \}$: *)
 		If[ToString[Head@Operator] == "Integrate",
 			result = Integrate[actOn[Operator/.{Integrate[Integrand_,Variable_] -> Integrand}, State],
@@ -37,3 +44,8 @@ actOn[Operator_, State_] := Module[{result, Integrand, Variable, TheFirst, TheRe
 	];
 	Return@result;
 ];
+
+
+(* -------------------------- Remarks: ----------------------------- *)
+
+(* Here we use the function "ToString" everywhere while judging what's the "Head" of the expr. is. The reason of this is technique *)

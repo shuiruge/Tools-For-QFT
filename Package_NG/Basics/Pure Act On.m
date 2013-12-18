@@ -12,11 +12,31 @@
 , which is needed here. *)
 
 
-pureActOn[Operator_, State_] := Module[{result, initialList, finalList, i1},
+pureActOn[Operator_, State_] := Module[{result, Integrand, Variable, TheFirst, TheResidual, initialList, finalList, i1},
 	If[fundamentalQNumberQ[Operator] == False,
-		Print["This operator is neither a creation operator nor an annihilation operator!"]];
+		result = "This operator is neither a creation operator nor an annihilation operator!"];
 	If[ToString[Head@State] != "ket",
-		Print["This state is not a ket!"]];
+		(* The state is not a "pure ket". *)
+		(* Then, simplify the 'State': *)
+		If[ToString[Head@State] == "Integrate",
+			(* $a . \{ \int \Ket{\Phi_p} dp \}$ -> $\int dp \{ a . \Ket{\Phi_p} \}$: *)
+			result = Integrate[pureActOn[Operator, State/.{Integrate[Integrand_,Variable_] -> Integrand}],
+							State/.{Integrate[Integrand_,Variable_] -> Variable}]];
+		If[ToString[Head@State] == "Plus",
+			(* $a . \{ \Ket{\Phi_1} + \Ket{\Phi_2} \}$ -> $a . \Ket{\Phi_1} + a . \Ket{\Phi_2}$: *)
+			result = Plus[pureActOn[Operator, State/.{Plus[TheFirst_, TheResidual_] -> TheFirst}],
+						pureActOn[Operator, State/.{Plus[TheFirst_, TheResidual_] -> TheResidual}]]];
+		If[ToString[Head@State] == "Times",
+			(* $a . \{ c*\Ket{\Phi} \}$ -> $c*\{ a . \Ket{\Phi} \}$, where $a$ is a q-number and $c$ is DEFINITLY a c-number: *)
+			If[ketQ[State/.{Times[TheFirst_, TheResidual_] -> TheFirst}] == True && ketQ[State/.{Times[TheFirst_, TheResidual_] -> TheResidual}] == False,
+				result = Times[pureActOn[Operator, State/.{Times[TheFirst_, TheResidual_] -> TheFirst}],
+							State/.{Times[TheFirst_, TheResidual_] -> TheResidual}]];
+			If[ketQ[State/.{Times[TheFirst_, TheResidual_] -> TheFirst}] == False && ketQ[State/.{Times[TheFirst_, TheResidual_] -> TheResidual}] == True,
+				result = Times[State/.{Times[TheFirst_, TheResidual_] -> TheFirst},
+							pureActOn[Operator, State/.{Times[TheFirst_, TheResidual_] -> TheResidual}]]]
+		]
+		(* Can the Head@State be "**"??? *)
+	];
 	If[fundamentalQNumberQ[Operator] == True && ToString[Head@State] == "ket",
 		If[ToString[Head@Operator] == "dagger",
 			(* Means that it is a creation operator. *)
@@ -40,21 +60,35 @@ pureActOn[Operator_, State_] := Module[{result, initialList, finalList, i1},
 						(* To make sure that the "i1"th particle in the ket is just
 							the SAME kind of particle that we want to annihilate. *)
 						result = result + Product[DiracDelta[pickOutVariable[Operator,i2] - pickOutVariable[initialList[[i1]],i2]], {i2,1,3}]*ket[Delete[initialList, i1]]
-					];]]];
-		Return[result]];
+					];]]]
+	];
+	Return[result];
 ];
 
 
-(* Blow are some sub-functions used in function "pureActOn". *)
+(* Blows are some sub-functions used in function "pureActOn". *)
 
 
-(* Input an function, NOT ONLY WITH ITS HEAD, such as, "f[x1,x2]",
-	Output all its variables in a list, that is, "{x1,x2}". *)
+(* The most stupid way, but it really works! *)
 
-variableAsList[function_] := Module[{head, variable, variableList},
-	head = Head@function;
-	variableList = function/.{head[variable__] -> {variable}};
-	Return@variableList;
+variableAsList[function_] := Module[{result, resultAsString, functionAsString, atom = 1, i1 = 1},
+	functionAsString = ToString@FullForm[function];
+	While[atom != "[",
+		If[i1 == StringLength@functionAsString,
+			(* That is, there's no "[...]" in function. *)
+			result = "No variable!";
+			Break[]];
+		atom = StringTake[functionAsString, {i1}];
+		i1++];
+	If[i1 != StringLength@functionAsString,
+		resultAsString = StringInsert[
+							StringInsert[
+								StringTake[functionAsString, {i1, StringLength@functionAsString - 1}],
+							"{", 1],
+						"}", -1];
+		result = ToExpression@resultAsString
+	];
+	Return[result];
 ];
 
 
@@ -64,6 +98,29 @@ variableAsList[function_] := Module[{head, variable, variableList},
 	position, that is, "x2". *)
 
 pickOutVariable[function_, position_] := Module[{result},
-	result = variableAsList[function][[position]];
+	If[ToString@variableAsList[function] == "No variable!",
+		result = "No variable at all!"];
+	If[ToString@variableAsList[function] != "No variable!",
+		If[position > Length@variableAsList[function],
+			result = "Not that many variables!"];
+		If[position <= Length@variableAsList[function],
+			result = variableAsList[function][[position]]]
+	];
 	Return@result;
+];
+
+
+(* Test whether "State" is a ket, maybe mixed, such as "c*ket[{}]", where "c" is a c-number, or not. *)
+(* The mechanism of this is to see whether there's "ket" as a "Head" in "State", or not. *)
+
+ketQ[State_] := Module[{result = False, i1 = 1},
+	If[ToString[Head@State] == "ket",
+		result = True];
+	If[ToString[Head@State] != "ket" && ToString@variableAsList[State] == "No variable!",
+		result = False];
+	If[ToString[Head@State] != "ket" && ToString@variableAsList[State] != "No variable!",
+		While[i1 <= Length@variableAsList[State] &&  result == False,
+			result = ketQ[pickOutVariable[State, i1]];
+			i1++]];
+	Return[result];
 ];

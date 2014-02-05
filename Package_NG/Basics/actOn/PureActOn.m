@@ -69,9 +69,9 @@ dealWithIntegrateForPureActOn[Operator_, State_] :=
 
 dealWithIntegrateAdvForPureActOn[Operator_, State_] :=
 	Module[{result, Integrand, Integrand0, VariablesList, VariablesList0, Rules, Rules0},
-		Integrand = State/.{integrateAdv[Integrand0_, VariablesList0_, Rules0] -> Integrand0};
-		VariablesList = State/.{integrateAdv[Integrand0_, VariablesList0_, Rules0] -> VariablesList0};
-		Rules = State/.{integrateAdv[Integrand0_, VariablesList0_, Rules0] -> Rules0}
+		Integrand = State/.{integrateAdv[Integrand0_, VariablesList0_, Rules0_] -> Integrand0};
+		VariablesList = State/.{integrateAdv[Integrand0_, VariablesList0_, Rules0_] -> VariablesList0};
+		Rules = State/.{integrateAdv[Integrand0_, VariablesList0_, Rules0_] -> Rules0};
 		result = integrateAdv[pureActOn[Operator, Integrand], VariablesList, Rules];
 		Return@result;];
 

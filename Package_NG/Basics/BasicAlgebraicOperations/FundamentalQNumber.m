@@ -13,10 +13,8 @@
 
 
 fundamentalQNumberQ[Operator_] := Module[{result = False, head, SubOperator, i1 = 1},
-	If[ToString[Head@Operator] == "dagger",
-		result = fundamentalQNumberQ[Operator/.{dagger[SubOperator_] -> SubOperator}]
-	];
-	If[ToString[Head@Operator] != "dagger",
+	If[Head@Operator === dagger,
+		result = fundamentalQNumberQ[Operator/.{dagger[SubOperator_] -> SubOperator}],
 		head = Head@Operator;
 		While[i1 <= Length[FundamentalQNumbers] && result == False,
 			If[head == FundamentalQNumbers[[i1,1]],
@@ -36,9 +34,9 @@ bosonOrFermion[Operator_] := Module[{result = 0, i1 = 1},
 	If[fundamentalQNumberQ[Operator] == False,
 		Print["It's not been declared!"]];
 	If[fundamentalQNumberQ[Operator] == True,
-		While[i1 <= Length[FundamentalQNumber] && result = 0,
-			If[Operator == FundamentalQNumber[[i1,1]],
-				result = FundamentalQNumber[[i1,2]]];
+		While[i1 <= Length[FundamentalQNumbers] && result = 0,
+			If[Operator == FundamentalQNumbers[[i1,1]],
+				result = FundamentalQNumbers[[i1,2]]];
 			i1++;]];
 	Return@result;
 ];

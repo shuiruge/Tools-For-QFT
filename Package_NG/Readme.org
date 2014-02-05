@@ -33,3 +33,14 @@ creation operator of the real scalar field $\zeta$.
 And the particles here are all bosons!
 
 This makes the progamme simplified.
+
+
+*** The total expression of perturbation up to
+    three-order
+    
+    The total explicit expression of perturbation
+    of the action which contains a coupled GB term
+    is contained in the
+    =On\ Thinking/Non-Gaussanity/Programmes/2ed-Order And 3rd-Order Parts Of Lagrangian Density With A GB Term (New).nb=,
+    =Perturbations Of Lagrangian Density Up To 3-Order=
+    section.
